@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const PLACEHOLDER_SLIDE_COUNT = 3;
+const CAROUSEL_HEIGHT = "h-[400px]";
 
 interface ProjectCarouselProps {
   images?: string[];
@@ -35,20 +36,14 @@ export default function ProjectCarousel({
     <div className="relative w-full overflow-hidden rounded-t-lg border-b border-border/30 bg-muted/20">
       <div
         className={cn(
-          "relative touch-pan-y",
-          hasImages
-            ? "flex min-h-[220px] items-center justify-center bg-gradient-to-b from-muted/40 to-muted/10 px-3 py-4"
-            : "aspect-[16/10]"
+          "relative touch-pan-y bg-gradient-to-b from-muted/40 to-muted/10",
+          CAROUSEL_HEIGHT
         )}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={hasImages ? images[current] : `placeholder-${current}`}
-            className={cn(
-              hasImages
-                ? "flex w-full items-center justify-center"
-                : "absolute inset-0"
-            )}
+            className="absolute inset-0 flex items-center justify-center px-3"
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -40 }}
@@ -62,13 +57,13 @@ export default function ProjectCarousel({
               <img
                 src={images[current]}
                 alt={`${projectTitle} screenshot ${current + 1}`}
-                className="mx-auto h-auto max-h-[380px] w-auto max-w-full object-contain rounded-lg shadow-md ring-1 ring-border/30"
+                className="max-h-full max-w-full object-contain rounded-lg shadow-md ring-1 ring-border/30"
                 draggable={false}
               />
             ) : (
               <div
                 className={cn(
-                  "absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br",
+                  "flex h-full w-full flex-col items-center justify-center gap-2 rounded-lg bg-gradient-to-br",
                   current === 0 && "from-purple-500/20 via-background to-pink-500/10",
                   current === 1 && "from-pink-500/15 via-background to-purple-500/20",
                   current === 2 && "from-purple-500/10 via-muted/30 to-pink-500/15"
